@@ -1,9 +1,10 @@
 import sys
-#test1
+
 def decimal_to_hex(decimal_value):
     hex_chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
     hexadecimal = ""
     num = decimal_value
+    print(f"")
     print(f"Converting the Decimal Value {num} to Hex...")
     
     # Check incase the user enters 0 as the value
@@ -20,6 +21,7 @@ def decimal_to_hex(decimal_value):
     return hexadecimal  # Return the hexadecimal value for testing
 
 if __name__ == "__main__":
+    print(f"")
     #checks if the arguments provided are greater than 1 (the script needs 2 arguments (Dec2Hex.py + interger)
     if len(sys.argv) > 1:
         print("Arguments entered are greater than 1 so proceeding correctly")  # No input argument
@@ -33,3 +35,4 @@ if __name__ == "__main__":
     #if false then print out error message
     else:
         print("Error: No input argument provided. Usage: python script.py <decimal_number>")  # No input argument
+    print(f"")
