@@ -1,17 +1,19 @@
-﻿# -*- coding: utf-8 -*-
-
 import sys
 
 def decimal_to_hex(decimal_value):
+    # Check if the input is an integer and not a negative number
+    if not isinstance(decimal_value, int) or decimal_value < 0:
+        raise ValueError("Input must be a non-negative integer")
+    
     hex_chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
     hexadecimal = ""
     num = decimal_value
     
     print(f"Converting the Decimal Value {num} to Hex..." + "\n")
     
-    # Check incase the user enters 0 as the value
+    # Check if the number is zero
     if num == 0:
-        return "0"
+        return "0x0"  # Hexadecimal representation of zero
     
     # Process the conversion for other numbers
     while num != 0:
@@ -19,22 +21,21 @@ def decimal_to_hex(decimal_value):
         hexadecimal = hex_chars[rem] + hexadecimal
         num //= 16
     
-    print(f"Hexadecimal representation is: {hexadecimal}")
-    return hexadecimal  # Return the hexadecimal value for testing
+    # Return the result with the '0x' prefix
+    result = f"0x{hexadecimal}"
+    
+    print(f"Hexadecimal representation is: {result}")
+    return result  # Return the hexadecimal value for testing
 
 if __name__ == "__main__":
     print("\n")
-    #checks if the arguments provided are greater than 1 (the script needs 2 arguments (Dec2Hex.py + interger)
     if len(sys.argv) > 1:
-        print("Arguments entered are greater than 1 so proceeding correctly")  # No input argument
-        #if true attempt to convert the argument to an interger
+        print("Arguments entered are greater than 1 so proceeding correctly")
         try:
             decimal_value = int(sys.argv[1])  # Try converting input to integer
             decimal_to_hex(decimal_value)
-        #If a valid interger is not used then it is catched (when try doesn't work)
         except ValueError:
-            print("Error: Please provide a valid integer. You have entered a non interger input")  # Catch non-integer input
-    #if false then print out error message
+            print("Error: Please provide a valid integer. You have entered a non-integer input")
     else:
-        print("Error: No input argument provided. Usage: python script.py <decimal_number>")  # No input argument
+        print("Error: No input argument provided. Usage: python script.py <decimal_number>")
     print("\n")
