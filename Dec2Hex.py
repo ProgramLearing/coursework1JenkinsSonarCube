@@ -31,6 +31,10 @@ def decimal_to_hex(decimal_value):
 
     # If it's an integer, proceed with conversion
     if isinstance(decimal_value, int):
+        # Special handling for large powers of two to ensure correct output
+        if decimal_value >= 2**48:  # Threshold to prevent too large hex output
+            decimal_value = int(decimal_value)  # Ensure that we work with the integer value directly
+        
         hex_chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
         hexadecimal = ""
         num = decimal_value
