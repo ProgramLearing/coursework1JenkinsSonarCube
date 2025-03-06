@@ -17,6 +17,9 @@ class TestDec2Hex(unittest.TestCase):
         self.assertEqual(decimal_to_hex(9999999999), '0x2540be3ff')
         self.assertEqual(decimal_to_hex(123456789123456789), hex(123456789123456789))
         self.assertEqual(decimal_to_hex(2**60), hex(2**60))
+        self.assertEqual(decimal_to_hex(2**100), hex(2**100))
+        self.assertEqual(decimal_to_hex(2**200), hex(2**200))
+        self.assertEqual(decimal_to_hex(10**500), hex(10**500))
 
     def test_negative_numbers(self):
         with self.assertRaises(ValueError):
@@ -45,6 +48,8 @@ class TestDec2Hex(unittest.TestCase):
             decimal_to_hex(-10.5)
         with self.assertRaises(ValueError):
             decimal_to_hex(-0.0001)
+        with self.assertRaises(ValueError):
+            decimal_to_hex(99.99999999999999)
     
     def test_float_integer_values(self):
         self.assertEqual(decimal_to_hex(100.0), '0x64')
@@ -118,6 +123,11 @@ class TestDec2Hex(unittest.TestCase):
     def test_command_line_invalid_input(self):
         sys.argv = ["Dec2Hex.py", "invalid"]
         with self.assertRaises(ValueError):
+            decimal_to_hex(int(sys.argv[1]))
+    
+    def test_command_line_missing_argument(self):
+        sys.argv = ["Dec2Hex.py"]
+        with self.assertRaises(IndexError):
             decimal_to_hex(int(sys.argv[1]))
     
     def test_large_number_multiple_digits(self):
