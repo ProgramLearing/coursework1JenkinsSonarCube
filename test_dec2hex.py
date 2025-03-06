@@ -1,4 +1,5 @@
 # test_dec2hex.py
+import sys
 import unittest
 from Dec2Hex import decimal_to_hex
 
@@ -61,13 +62,13 @@ class TestDec2Hex(unittest.TestCase):
 
     def test_edge_case_large_positive(self):
         # Test with very large positive numbers
-        self.assertEqual(decimal_to_hex(9999999999), '0x2540be400')  # 9999999999 in decimal is '0x2540be400' in hex
+        self.assertEqual(decimal_to_hex(9999999999), '0x2540be3ff')  # This should be correct now
 
     def test_edge_case_small_negative(self):
         # Test with small negative numbers (should raise ValueError)
         with self.assertRaises(ValueError):
             decimal_to_hex(-2)
-
+            
     def test_edge_case_large_negative(self):
         # Test with very large negative numbers (should raise ValueError)
         with self.assertRaises(ValueError):
@@ -77,7 +78,6 @@ class TestDec2Hex(unittest.TestCase):
         # Test with a very small float value (should raise ValueError)
         with self.assertRaises(ValueError):
             decimal_to_hex(0.0001)
-
 
 
 if __name__ == "__main__":
