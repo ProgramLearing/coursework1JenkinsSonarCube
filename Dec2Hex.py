@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 
 #Install Coverage - it is used to track coverag in python
