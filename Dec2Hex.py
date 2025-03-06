@@ -20,7 +20,7 @@ def decimal_to_hex(decimal_value):
             raise ValueError("Input is too large and cannot be converted.")
         else:
             raise ValueError("Input must be a non-negative integer")
-    
+
     # Check if the input is an integer and not a negative number
     if not isinstance(decimal_value, int) or decimal_value < 0:
         raise ValueError("Input must be a non-negative integer")
