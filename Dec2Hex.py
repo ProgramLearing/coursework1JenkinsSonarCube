@@ -1,4 +1,5 @@
 import sys
+import math
 
 def decimal_to_hex(decimal_value):
     # Check if the input is a boolean
@@ -14,12 +15,12 @@ def decimal_to_hex(decimal_value):
 
     # Check if the input is a float
     if isinstance(decimal_value, float):
-        # Handle infinity and very large floats
-        if decimal_value == float('inf') or decimal_value == float('-inf') or abs(decimal_value) > 1e308:
-            raise ValueError("Input is too large and cannot be converted.")
-        
+        # Handle infinity, NaN, and very large floats
+        if math.isnan(decimal_value) or math.isinf(decimal_value) or abs(decimal_value) > 1e308:
+            raise ValueError("Input is too large or invalid to be converted.")
+
         # Check if the float is essentially an integer or very close to one
-        if abs(decimal_value - int(decimal_value)) < 1e-10:
+        if abs(decimal_value - round(decimal_value)) < 1e-10:
             decimal_value = int(decimal_value)  # Convert to integer if very close
         elif not decimal_value.is_integer():  # Raise error if the float is not an integer or close to an integer
             raise ValueError("Input must be a non-negative integer or a float close to an integer")
@@ -48,7 +49,7 @@ def decimal_to_hex(decimal_value):
         result = f"0x{hexadecimal.lower()}"
         return result
 
-    # For very large floating point values, handle as integers
+    # For very large floating point values, handle as integers (this should handle powers of two correctly)
     if isinstance(decimal_value, float) and decimal_value.is_integer():
         return hex(int(decimal_value))  # Convert to integer and get the hex
 
