@@ -44,7 +44,7 @@ class TestDec2Hex(unittest.TestCase):
     def test_boolean_input(self):
         # Test with a boolean input (should raise ValueError)
         with self.assertRaises(ValueError):
-            decimal_to_hex(True)  # Boolean input should raise error
+            decimal_to_hex(True)  # or decimal_to_hex(False)
 
     def test_large_positive_number(self):
         # Test with a very large number
