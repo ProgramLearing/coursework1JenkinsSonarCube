@@ -2,6 +2,7 @@ import sys
 import unittest
 from Dec2Hex import decimal_to_hex
 
+
 class TestDec2Hex(unittest.TestCase):
 
     def test_positive_numbers(self):
