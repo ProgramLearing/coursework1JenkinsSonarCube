@@ -1,7 +1,7 @@
 import sys
 
 #Install Coverage - it is used to track coverag in python
-pip install coverage
+
 
 
 def decimal_to_hex(decimal_value):
