@@ -2,7 +2,6 @@ import sys
 import unittest
 from Dec2Hex import decimal_to_hex
 
-
 class TestDec2Hex(unittest.TestCase):
 
     def test_positive_numbers(self):
@@ -33,6 +32,12 @@ class TestDec2Hex(unittest.TestCase):
             decimal_to_hex(0.0001)
         with self.assertRaises(ValueError):
             decimal_to_hex(1.99999)
+        with self.assertRaises(ValueError):
+            decimal_to_hex(float("nan"))
+        with self.assertRaises(ValueError):
+            decimal_to_hex(float("inf"))
+        with self.assertRaises(ValueError):
+            decimal_to_hex(float("-inf"))
 
     def test_non_integer_input(self):
         with self.assertRaises(ValueError):
@@ -41,6 +46,10 @@ class TestDec2Hex(unittest.TestCase):
             decimal_to_hex(True)
         with self.assertRaises(ValueError):
             decimal_to_hex(None)
+        with self.assertRaises(ValueError):
+            decimal_to_hex("1000abc")
+        with self.assertRaises(ValueError):
+            decimal_to_hex("")
 
     def test_hex_format(self):
         self.assertTrue(decimal_to_hex(255).startswith('0x'))
@@ -89,6 +98,13 @@ class TestDec2Hex(unittest.TestCase):
         sys.argv = ["Dec2Hex.py", "invalid"]
         with self.assertRaises(ValueError):
             decimal_to_hex(int(sys.argv[1]))
+    
+    def test_int_boundary_before_overflow(self):
+        self.assertEqual(decimal_to_hex(sys.maxsize - 1), hex(sys.maxsize - 1))
+    
+    def test_large_powers_of_two(self):
+        self.assertEqual(decimal_to_hex(2**10), '0x400')
+        self.assertEqual(decimal_to_hex(2**20), '0x100000')
 
 if __name__ == "__main__":
     unittest.main()
