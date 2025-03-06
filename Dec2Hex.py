@@ -5,6 +5,20 @@ def decimal_to_hex(decimal_value):
     if isinstance(decimal_value, bool):
         raise ValueError("Input cannot be a boolean.")
 
+    # Handle string inputs that represent numbers (e.g., "1000")
+    if isinstance(decimal_value, str):
+        try:
+            decimal_value = int(decimal_value)  # Try converting string to integer
+        except ValueError:
+            raise ValueError("Input must be a non-negative integer")
+
+    # Check if the input is a float very close to an integer (e.g., 10.0 should be accepted as 10)
+    if isinstance(decimal_value, float):
+        if abs(decimal_value - int(decimal_value)) < 1e-10:
+            decimal_value = int(decimal_value)  # Convert to integer if close to integer
+        else:
+            raise ValueError("Input must be a non-negative integer")
+
     # Check if the input is an integer and not a negative number
     if not isinstance(decimal_value, int) or decimal_value < 0:
         raise ValueError("Input must be a non-negative integer")
@@ -36,7 +50,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         print("Arguments entered are greater than 1 so proceeding correctly")
         try:
-            decimal_value = int(sys.argv[1])  # Try converting input to integer
+            decimal_value = sys.argv[1]  # Get the input as string (even if it's a number)
             decimal_to_hex(decimal_value)
         except ValueError:
             print("Error: Please provide a valid integer. You have entered a non-integer input")
