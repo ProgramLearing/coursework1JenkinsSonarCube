@@ -12,14 +12,14 @@ def decimal_to_hex(decimal_value):
         except ValueError:
             raise ValueError("Input must be a valid integer or a string that can be converted to an integer")
 
-    # Check if the input is a float very close to an integer (e.g., 10.0 should be accepted as 10)
+    # Check if the input is a float
     if isinstance(decimal_value, float):
         if abs(decimal_value - int(decimal_value)) < 1e-10:
-            decimal_value = int(decimal_value)  # Convert to integer if close to integer
-        elif abs(decimal_value) > 1e308:  # Float overflow handling (e.g., 1e1000)
+            decimal_value = int(decimal_value)  # Convert to integer if very close to an integer
+        elif abs(decimal_value) > 1e308:  # Handle extremely large floats
             raise ValueError("Input is too large and cannot be converted.")
-        else:
-            raise ValueError("Input must be a non-negative integer")
+        elif not decimal_value.is_integer():  # Raise error if the float is not close to an integer
+            raise ValueError("Input must be a non-negative integer or a float close to an integer")
 
     # Check if the input is an integer and not a negative number
     if not isinstance(decimal_value, int) or decimal_value < 0:
@@ -29,8 +29,6 @@ def decimal_to_hex(decimal_value):
     hexadecimal = ""
     num = decimal_value
     
-    print(f"Converting the Decimal Value {num} to Hex..." + "\n")
-
     # Check if the number is zero
     if num == 0:
         return "0x0"  # Hexadecimal representation of zero
@@ -44,7 +42,6 @@ def decimal_to_hex(decimal_value):
     # Return the result with the '0x' prefix in lowercase
     result = f"0x{hexadecimal.lower()}"
     
-    print(f"Hexadecimal representation is: {result}")
     return result  # Return the hexadecimal value for testing
 
 if __name__ == "__main__":
