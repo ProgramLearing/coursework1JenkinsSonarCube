@@ -17,6 +17,7 @@ def decimal_to_hex(decimal_value):
         # Handle infinity and very large floats
         if decimal_value == float('inf') or decimal_value == float('-inf') or abs(decimal_value) > 1e308:
             raise ValueError("Input is too large and cannot be converted.")
+        
         # Check if the float is essentially an integer or very close to one
         if abs(decimal_value - int(decimal_value)) < 1e-10:
             decimal_value = int(decimal_value)  # Convert to integer if very close
