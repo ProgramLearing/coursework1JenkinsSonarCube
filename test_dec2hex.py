@@ -1,6 +1,6 @@
 # test_dec2hex.py
 import unittest
-from Dec2Hex import dec_to_hex
+from Dec2Hex import decimal_to_hex
 
 class TestDec2Hex(unittest.TestCase):
 
