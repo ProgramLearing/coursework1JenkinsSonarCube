@@ -280,7 +280,60 @@ class TestDec2Hex(unittest.TestCase):
         # Test with empty input (should raise ValueError)
         with self.assertRaises(ValueError):
             decimal_to_hex("")
-            
+        
+    #Test for Large Arbitrary-Precision Integers
+    def test_large_arbitrary_precision_integer(self):
+        large_number = 10 ** 200  # Very large number
+        self.assertEqual(decimal_to_hex(large_number), hex(large_number))
 
+    #Performance Stress Tests for Extremely Large Numbers
+    def test_performance_with_extremely_large_input(self):
+        large_input = 10**1000
+        self.assertEqual(decimal_to_hex(large_input), hex(large_input))
+
+    #Large Powers of Two
+    def test_large_powers_of_two(self):
+        self.assertEqual(decimal_to_hex(2**30), '0x40000000')
+        self.assertEqual(decimal_to_hex(2**40), '0x10000000000')
+        self.assertEqual(decimal_to_hex(2**50), '0x400000000000')
+
+    #Multi-Digit Hexadecimal Numbers
+    def test_large_number_multiple_digits(self):
+        self.assertEqual(decimal_to_hex(1234567890), '0x499602d2')
+
+    #Decimal to Hex and Back Conversion Consistency
+    def test_decimal_to_hex_and_back(self):
+        for i in range(1, 100):
+            hex_value = decimal_to_hex(i)
+            decimal_value = int(hex_value, 16)
+            self.assertEqual(decimal_to_hex(decimal_value), hex_value)
+
+    #Performance with Large Sequences (1-1000)
+    def test_performance_with_large_sequence(self):
+        for i in range(1, 1001):
+            self.assertEqual(decimal_to_hex(i), hex(i))
+
+    #Mix of Small and Large Numbers
+    def test_mixed_large_and_small_numbers(self):
+        self.assertEqual(decimal_to_hex(2), '0x2')
+        self.assertEqual(decimal_to_hex(16), '0x10')
+        self.assertEqual(decimal_to_hex(256), '0x100')
+        self.assertEqual(decimal_to_hex(123456789123456789), '0x75bcd15')
+
+    #Floating Point Representation as Integers
+    def test_float_representations(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex(1.0)  # Should raise ValueError as 1.0 is a float
+
+    #Mixed Content Non-Numeric Strings
+    def test_non_numeric_string_with_mixed_content(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex("1000abc")  # Should raise ValueError
+
+    #Very Close to Integer Values with More Precision
+    def test_very_close_to_integer_with_precision(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex(10.0000000000001)  # Should raise ValueError
+            
 if __name__ == "__main__":
     unittest.main()
