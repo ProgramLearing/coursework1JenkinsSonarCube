@@ -11,7 +11,11 @@ class TestDec2Hex(unittest.TestCase):
     def test_zero(self):
         # Test with zero
         self.assertEqual(decimal_to_hex(0), '0x0')  # 0 in decimal is '0x0' in hex
-
+        
+    def test_negative_number(self):
+        # Test with a negative number (should raise ValueError)
+        with self.assertRaises(ValueError):
+            dec_to_hex(-1)  # Raises ValueError for negative inputs
    
 if __name__ == "__main__":
     unittest.main()
