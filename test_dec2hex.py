@@ -205,6 +205,79 @@ class TestDec2Hex(unittest.TestCase):
             decimal_to_hex(-2)
         with self.assertRaises(ValueError):
             decimal_to_hex(-3)
+def test_large_powers_of_two(self):
+    # Test with large powers of two
+    self.assertEqual(decimal_to_hex(2**10), '0x400')  # 2^10 = 1024 in decimal
+    self.assertEqual(decimal_to_hex(2**20), '0x100000')  # 2^20 = 1048576 in decimal
+
+def test_small_negative_float(self):
+    # Test with small negative float (should raise ValueError)
+    with self.assertRaises(ValueError):
+        decimal_to_hex(-0.0001)
+
+def test_large_float_values(self):
+    # Test with very large floating point values (should raise ValueError)
+    with self.assertRaises(ValueError):
+        decimal_to_hex(1e200)  # Very large float, exceeds max integer size
+
+def test_negative_float(self):
+    # Test with negative float values (should raise ValueError)
+    with self.assertRaises(ValueError):
+        decimal_to_hex(-10.5)
+
+def test_very_close_to_integer(self):
+    # Test with float values very close to an integer (should raise ValueError for 10.1)
+    self.assertEqual(decimal_to_hex(10.0), '0xa')
+    with self.assertRaises(ValueError):
+        decimal_to_hex(10.1)
+
+def test_non_ascii_string(self):
+    # Test with non-ASCII characters in string (should raise ValueError)
+    with self.assertRaises(ValueError):
+        decimal_to_hex("数字")  # Non-ASCII characters
+
+def test_max_integer_value(self):
+    # Test with the maximum integer value (should convert correctly)
+    self.assertEqual(decimal_to_hex(sys.maxsize), hex(sys.maxsize))
+
+def test_performance_with_large_input(self):
+    # Test with an extremely large number for performance
+    large_input = 10**100
+    self.assertEqual(decimal_to_hex(large_input), hex(large_input))
+
+def test_numeric_string_input(self):
+    # Test with a numeric string input (should be valid)
+    self.assertEqual(decimal_to_hex("1000"), '0x3e8')  # string "1000" should be valid
+
+def test_large_sequence(self):
+    # Test with a large sequence of numbers (1 to 1000)
+    for i in range(1, 1001):
+        self.assertEqual(decimal_to_hex(i), hex(i))
+
+def test_large_negative_powers_of_two(self):
+    # Test with large negative powers of two (should raise ValueError)
+    with self.assertRaises(ValueError):
+        decimal_to_hex(-(2**10))
+
+def test_floating_point_powers_of_two(self):
+    # Test with floating point representations of powers of two
+    self.assertEqual(decimal_to_hex(1e3), hex(1000))
+
+def test_hex_decimal_conversion(self):
+    # Test consistency between hex and decimal conversion
+    for i in range(1, 100):
+        decimal_value = i
+        hex_value = decimal_to_hex(decimal_value)
+        self.assertEqual(decimal_to_hex(int(hex_value, 16)), hex_value)
+
+def test_minimal_non_zero_input(self):
+    # Test the minimal non-zero integer input (should be '0x1')
+    self.assertEqual(decimal_to_hex(1), '0x1')
+
+def test_empty_input(self):
+    # Test with empty input (should raise ValueError)
+    with self.assertRaises(ValueError):
+        decimal_to_hex("")
 
 
 
