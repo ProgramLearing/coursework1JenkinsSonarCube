@@ -10,7 +10,7 @@ def decimal_to_hex(decimal_value):
         try:
             decimal_value = int(decimal_value)  # Try converting string to integer
         except ValueError:
-            raise ValueError("Input must be a non-negative integer")
+            raise ValueError("Input must be a valid integer or a string that can be converted to an integer")
 
     # Check if the input is a float very close to an integer (e.g., 10.0 should be accepted as 10)
     if isinstance(decimal_value, float):
@@ -50,12 +50,11 @@ def decimal_to_hex(decimal_value):
 if __name__ == "__main__":
     print("\n")
     if len(sys.argv) > 1:
-        print("Arguments entered are greater than 1 so proceeding correctly")
         try:
             decimal_value = sys.argv[1]  # Get the input as string (even if it's a number)
             decimal_to_hex(decimal_value)
-        except ValueError:
-            print("Error: Please provide a valid integer. You have entered a non-integer input")
+        except ValueError as e:
+            print(f"Error: {e}")
     else:
         print("Error: No input argument provided. Usage: python script.py <decimal_number>")
     print("\n")
