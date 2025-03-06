@@ -78,6 +78,37 @@ class TestDec2Hex(unittest.TestCase):
         # Test with a very small float value (should raise ValueError)
         with self.assertRaises(ValueError):
             decimal_to_hex(0.0001)
+    def test_small_numbers(self):
+        self.assertEqual(decimal_to_hex(10), '0xa')
+        self.assertEqual(decimal_to_hex(100), '0x64')
+
+    def test_even_numbers(self):
+        self.assertEqual(decimal_to_hex(8), '0x8')
+        self.assertEqual(decimal_to_hex(16), '0x10')
+
+    def test_odd_numbers(self):
+        self.assertEqual(decimal_to_hex(7), '0x7')
+        self.assertEqual(decimal_to_hex(15), '0xf')
+
+    def test_small_consecutive_numbers(self):
+        self.assertEqual(decimal_to_hex(3), '0x3')
+        self.assertEqual(decimal_to_hex(4), '0x4')
+
+    def test_large_float(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex(1e1000)
+
+    def test_empty_string(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex("")
+
+    def test_non_numeric_string(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex("abc")
+
+    def test_none_input(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex(None)
 
 
 if __name__ == "__main__":
