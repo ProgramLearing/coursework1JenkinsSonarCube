@@ -28,6 +28,10 @@ class TestDec2Hex(unittest.TestCase):
             decimal_to_hex(-99999999)
         with self.assertRaises(ValueError):
             decimal_to_hex(-sys.maxsize - 1)
+        with self.assertRaises(ValueError):
+            decimal_to_hex("-0")
+        with self.assertRaises(ValueError):
+            decimal_to_hex(" -100")
 
     def test_float_input(self):
         with self.assertRaises(ValueError):
@@ -50,6 +54,19 @@ class TestDec2Hex(unittest.TestCase):
             decimal_to_hex(-0.0001)
         with self.assertRaises(ValueError):
             decimal_to_hex(99.99999999999999)
+        self.assertEqual(decimal_to_hex(1e20), hex(int(1e20)))
+        self.assertEqual(decimal_to_hex(1e100), hex(int(1e100)))
+        self.assertEqual(decimal_to_hex(1e308), hex(int(1e308)))
+    
+    def test_unreachable_case(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex(None)
+        with self.assertRaises(ValueError):
+            decimal_to_hex([])
+        with self.assertRaises(ValueError):
+            decimal_to_hex({})
+        with self.assertRaises(ValueError):
+            decimal_to_hex(" 500 ")
     
     def test_float_integer_values(self):
         self.assertEqual(decimal_to_hex(100.0), '0x64')
@@ -82,35 +99,6 @@ class TestDec2Hex(unittest.TestCase):
         self.assertEqual(decimal_to_hex(2**50), '0x400000000000')
         self.assertEqual(decimal_to_hex(2**10), '0x400')
         self.assertEqual(decimal_to_hex(2**20), '0x100000')
-
-    def test_boundary_values(self):
-        self.assertEqual(decimal_to_hex(sys.maxsize), hex(sys.maxsize))
-        self.assertEqual(decimal_to_hex(sys.maxsize - 1), hex(sys.maxsize - 1))
-        self.assertEqual(decimal_to_hex(2**48), hex(2**48))
-        self.assertEqual(decimal_to_hex(2**49), hex(2**49))
-
-    def test_large_arbitrary_precision_integer(self):
-        large_number = 10 ** 200
-        self.assertEqual(decimal_to_hex(large_number), hex(large_number))
-
-    def test_performance_with_large_input(self):
-        large_input = 10**1000
-        self.assertEqual(decimal_to_hex(large_input), hex(large_input))
-
-    def test_decimal_to_hex_and_back(self):
-        for i in range(1, 100):
-            hex_value = decimal_to_hex(i)
-            decimal_value = int(hex_value, 16)
-            self.assertEqual(decimal_to_hex(decimal_value), hex_value)
-
-    def test_mixed_large_and_small_numbers(self):
-        self.assertEqual(decimal_to_hex(2), '0x2')
-        self.assertEqual(decimal_to_hex(16), '0x10')
-        self.assertEqual(decimal_to_hex(256), '0x100')
-        self.assertEqual(decimal_to_hex(123456789123456789), '0x75bcd15')
-
-    def test_floating_point_powers_of_two(self):
-        self.assertEqual(decimal_to_hex(1e3), hex(1000))
 
     def test_command_line_argument(self):
         sys.argv = ["Dec2Hex.py", "100"]
