@@ -45,6 +45,10 @@ class TestDec2Hex(unittest.TestCase):
             decimal_to_hex(-10.5)
         with self.assertRaises(ValueError):
             decimal_to_hex(-0.0001)
+    
+    def test_float_integer_values(self):
+        self.assertEqual(decimal_to_hex(100.0), '0x64')
+        self.assertEqual(decimal_to_hex(2**50.0), '0x400000000000')
 
     def test_non_integer_input(self):
         with self.assertRaises(ValueError):
@@ -106,6 +110,10 @@ class TestDec2Hex(unittest.TestCase):
     def test_command_line_argument(self):
         sys.argv = ["Dec2Hex.py", "100"]
         self.assertEqual(decimal_to_hex(int(sys.argv[1])), "0x64")
+    
+    def test_command_line_float_argument(self):
+        sys.argv = ["Dec2Hex.py", "100.0"]
+        self.assertEqual(decimal_to_hex(float(sys.argv[1])), "0x64")
     
     def test_command_line_invalid_input(self):
         sys.argv = ["Dec2Hex.py", "invalid"]
