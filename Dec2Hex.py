@@ -10,6 +10,11 @@ def decimal_to_hex(decimal_value):
     num = decimal_value
     
     print(f"Converting the Decimal Value {num} to Hex..." + "\n")
+
+    # Check if boolean input then convert to lowercase
+    if isinstance(decimal_value, bool):
+        raise ValueError("Input cannot be a boolean.")
+    return hex(decimal_value).lower()  # Ensures lowercase output
     
     # Check if the number is zero
     if num == 0:
