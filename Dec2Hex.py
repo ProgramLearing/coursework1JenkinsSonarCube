@@ -32,9 +32,6 @@ def decimal_to_hex(decimal_value):
     # If it's an integer, proceed with conversion
     if isinstance(decimal_value, int):
         # Special handling for large powers of two to ensure correct output
-        if decimal_value >= 2**48:  # Threshold to prevent too large hex output
-            decimal_value = int(decimal_value)  # Ensure that we work with the integer value directly
-        
         hex_chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
         hexadecimal = ""
         num = decimal_value
@@ -53,9 +50,10 @@ def decimal_to_hex(decimal_value):
         result = f"0x{hexadecimal.lower()}"
         return result
 
-    # For very large floating point values, handle as integers (this should handle powers of two correctly)
+    # For very large floating point values, handle as integers
     if isinstance(decimal_value, float) and decimal_value.is_integer():
-        return hex(int(decimal_value))  # Convert to integer and get the hex
+        # Correct handling for large integers from floats (e.g., 2**50)
+        return f"0x{int(decimal_value):x}"
 
     return "0x0"  # Default case (should never be reached)
 
