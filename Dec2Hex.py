@@ -16,9 +16,11 @@ def decimal_to_hex(decimal_value):
     if isinstance(decimal_value, float):
         if abs(decimal_value - int(decimal_value)) < 1e-10:
             decimal_value = int(decimal_value)  # Convert to integer if close to integer
+        elif abs(decimal_value) > 1e308:  # Float overflow handling (e.g., 1e1000)
+            raise ValueError("Input is too large and cannot be converted.")
         else:
             raise ValueError("Input must be a non-negative integer")
-
+    
     # Check if the input is an integer and not a negative number
     if not isinstance(decimal_value, int) or decimal_value < 0:
         raise ValueError("Input must be a non-negative integer")
