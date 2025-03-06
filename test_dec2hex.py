@@ -141,7 +141,6 @@ class TestDec2Hex(unittest.TestCase):
         # None is not a valid input and should raise a ValueError
         with self.assertRaises(ValueError):
             decimal_to_hex(None)
-
     def test_smallest_positive(self):
         # Test with the smallest positive number (1)
         self.assertEqual(decimal_to_hex(1), '0x1')
