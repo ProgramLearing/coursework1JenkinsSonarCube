@@ -14,6 +14,11 @@ def decimal_to_hex(decimal_value):
     # Check if the number is zero
     if num == 0:
         return "0x0"  # Hexadecimal representation of zero
+        
+    # Check if boolean input then convert to lowercase
+    if isinstance(decimal_value, bool):
+        raise ValueError("Input cannot be a boolean.")
+    return hex(decimal_value).lower()  # Ensures lowercase output
     
     # Process the conversion for other numbers
     while num != 0:
