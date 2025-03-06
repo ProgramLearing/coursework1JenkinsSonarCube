@@ -334,11 +334,7 @@ class TestDec2Hex(unittest.TestCase):
     def test_very_close_to_integer_with_precision(self):
         with self.assertRaises(ValueError):
             decimal_to_hex(10.0000000000001)  # Should raise ValueError
-			import sys
-import unittest
-from Dec2Hex import decimal_to_hex
-
-class TestDec2Hex(unittest.TestCase):
+	## Combined versions
 
     def test_positive_number(self):
         # Test with a positive number
