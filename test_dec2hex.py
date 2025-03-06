@@ -16,6 +16,7 @@ class TestDec2Hex(unittest.TestCase):
         self.assertEqual(decimal_to_hex(123456789), '0x75bcd15')
         self.assertEqual(decimal_to_hex(9999999999), '0x2540be3ff')
         self.assertEqual(decimal_to_hex(123456789123456789), hex(123456789123456789))
+        self.assertEqual(decimal_to_hex(2**60), hex(2**60))
 
     def test_negative_numbers(self):
         with self.assertRaises(ValueError):
@@ -38,6 +39,8 @@ class TestDec2Hex(unittest.TestCase):
             decimal_to_hex(float("inf"))
         with self.assertRaises(ValueError):
             decimal_to_hex(float("-inf"))
+        with self.assertRaises(ValueError):
+            decimal_to_hex(1e309)
 
     def test_non_integer_input(self):
         with self.assertRaises(ValueError):
@@ -66,6 +69,8 @@ class TestDec2Hex(unittest.TestCase):
     def test_boundary_values(self):
         self.assertEqual(decimal_to_hex(sys.maxsize), hex(sys.maxsize))
         self.assertEqual(decimal_to_hex(sys.maxsize - 1), hex(sys.maxsize - 1))
+        self.assertEqual(decimal_to_hex(2**48), hex(2**48))
+        self.assertEqual(decimal_to_hex(2**49), hex(2**49))
 
     def test_large_arbitrary_precision_integer(self):
         large_number = 10 ** 200
@@ -105,6 +110,13 @@ class TestDec2Hex(unittest.TestCase):
     def test_large_powers_of_two(self):
         self.assertEqual(decimal_to_hex(2**10), '0x400')
         self.assertEqual(decimal_to_hex(2**20), '0x100000')
-
+    
+    def test_large_number_multiple_digits(self):
+        self.assertEqual(decimal_to_hex(1234567890), '0x499602d2')
+    
+    def test_very_close_to_integer_with_precision(self):
+        with self.assertRaises(ValueError):
+            decimal_to_hex(10.0000000000001)
+    
 if __name__ == "__main__":
     unittest.main()
