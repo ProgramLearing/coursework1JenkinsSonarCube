@@ -142,6 +142,72 @@ class TestDec2Hex(unittest.TestCase):
         with self.assertRaises(ValueError):
             decimal_to_hex(None)
 
+    def test_smallest_positive(self):
+        # Test with the smallest positive number (1)
+        self.assertEqual(decimal_to_hex(1), '0x1')
+
+    def test_smallest_even(self):
+        # Test with the smallest even positive number (2)
+        self.assertEqual(decimal_to_hex(2), '0x2')
+
+    def test_smallest_odd(self):
+        # Test with the smallest odd positive number (3)
+        self.assertEqual(decimal_to_hex(3), '0x3')
+
+    def test_very_large_negative(self):
+        # Test with a very large negative number (should raise ValueError)
+        with self.assertRaises(ValueError):
+            decimal_to_hex(-1e18)
+
+    def test_float_very_close_to_integer(self):
+        # Test with a float value that is very close to an integer (e.g., 1.99999)
+        with self.assertRaises(ValueError):
+            decimal_to_hex(1.99999)
+
+    def test_very_large_positive(self):
+        # Test with a very large positive number (e.g., 1e100)
+        self.assertEqual(decimal_to_hex(int(1e100)), hex(int(1e100)))
+
+    def test_large_negative_near_limit(self):
+        # Test with a very large negative number near the system's maximum negative value
+        with self.assertRaises(ValueError):
+            decimal_to_hex(-sys.maxsize - 1)
+
+    def test_power_of_two(self):
+        # Test with numbers that are powers of two
+        self.assertEqual(decimal_to_hex(16), '0x10')
+        self.assertEqual(decimal_to_hex(32), '0x20')
+        self.assertEqual(decimal_to_hex(64), '0x40')
+
+    def test_sequence_of_numbers(self):
+        # Test a sequence of numbers from 1 to 10
+        expected_results = ['0x1', '0x2', '0x3', '0x4', '0x5', '0x6', '0x7', '0x8', '0x9', '0xa']
+        for i in range(1, 11):
+            self.assertEqual(decimal_to_hex(i), expected_results[i - 1])
+
+    def test_hex_and_decimal_same(self):
+        # Test numbers where hex representation and decimal are the same (e.g., 1)
+        self.assertEqual(decimal_to_hex(1), '0x1')
+        self.assertEqual(decimal_to_hex(16), '0x10')
+
+    def test_smallest_input(self):
+        # Test with the smallest valid input, zero
+        self.assertEqual(decimal_to_hex(0), '0x0')
+
+    def test_int_boundary_before_overflow(self):
+        # Test with a large number just before integer overflow
+        self.assertEqual(decimal_to_hex(sys.maxsize - 1), hex(sys.maxsize - 1))
+
+    def test_negative_values(self):
+        # Test with various negative numbers (should raise ValueError)
+        with self.assertRaises(ValueError):
+            decimal_to_hex(-1)
+        with self.assertRaises(ValueError):
+            decimal_to_hex(-2)
+        with self.assertRaises(ValueError):
+            decimal_to_hex(-3)
+
+
 
 if __name__ == "__main__":
     unittest.main()
